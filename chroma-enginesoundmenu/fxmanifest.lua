@@ -13,6 +13,8 @@ server_scripts {
     'server.lua',
 }
 
+dependency 'ox_lib'
+
 author 'Grav'
 version '1.0'
 description 'Engine sound menu that syncs to other players'
