@@ -29,9 +29,18 @@ RegisterNetEvent("Chroma:EngineSounds:OpenMenu", function()
     lib.showMenu('engine_sound_menu')
 end)
 
-AddStateBagChangeHandler("enginesound", nil, function(bagName, key, value)
+AddStateBagChangeHandler("vehdata:sound", nil, function(bagName, key, value)
     local entity = GetEntityFromStateBagName(bagName)
     if entity == 0 then return end
 
     ForceUseAudioGameObject(entity, value)
 end)
+
+local keybind = lib.addKeybind({
+    name = 'open_enginesound_menu',
+    description = 'Open Engine Sound Menu',
+    defaultKey = Config.Keybind,
+    onPressed = function(self)
+        ExecuteCommand('enginesound')
+    end,
+})
