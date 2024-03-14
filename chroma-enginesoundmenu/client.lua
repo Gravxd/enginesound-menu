@@ -24,10 +24,8 @@ lib.registerMenu({
 end)
 
 RegisterNetEvent("Chroma:EngineSounds:OpenMenu", function()
-    if not cache.vehicle or cache.seat ~= 1 then return end
-    lib.setMenuOptions('engine_sound_menu',
-        { label = 'Change Engine Sound', icon = 'arrows-up-down-left-right', values = DisplayLabels, defaultIndex = Index },
-        1)
+    if not cache.vehicle or cache.seat ~= -1 then return end
+    lib.setMenuOptions('engine_sound_menu', { label = 'Change Engine Sound', icon = 'arrows-up-down-left-right', values = DisplayLabels, defaultIndex = Index }, 1)
     lib.showMenu('engine_sound_menu')
 end)
 
