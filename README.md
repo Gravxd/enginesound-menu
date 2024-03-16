@@ -1,3 +1,4 @@
+<img src="https://github.com/Gravxd/fivem-enginesound-menu/assets/75702884/95a09e7e-d8aa-4955-ae0a-ae1ce6a639d4" width="100" height="100"><br>
 # chroma-enginesoundmenu - FiveM
 Easy to use menu to allow you to change your engine sound ingame - syncs to all clients via statebags.
 
