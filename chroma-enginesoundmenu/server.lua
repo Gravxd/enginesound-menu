@@ -1,31 +1,38 @@
-local function HasPermission(src)
-    -- your permission function here - you can integrate your framework for jobs/perms etc
-    return IsPlayerAceAllowed(src, 'enginesoundmenu')
-end
-
-local function Notify(src, msg, type)
-    -- you can edit this to whatever you want, by default it uses ox_lib notifications
-    TriggerClientEvent("ox_lib:notify", src, {
-        description = msg,
-        title = 'chroma-enginesoundmenu',
-        type = type,
-        position = 'center-right',
-    })
-end
-
 RegisterCommand("enginesound", function(source, args, rawCommand)
-    if HasPermission(source) then
+    if Config.HasPermission(source) then
         TriggerClientEvent("Chroma:EngineSounds:OpenMenu", source)
     else
-        Notify(source, 'You do not have permission to use this command!', 'error')
+        Config.Notify(source, 'You do not have permission to use this command!', 'error')
     end
 end, false)
 
 RegisterServerEvent("Chroma:EngineSounds:ChangeEngineSound", function(data)
-
     local entity = NetworkGetEntityFromNetworkId(data.net)
     if not DoesEntityExist(entity) then return end
-
     Entity(entity).state['vehdata:sound'] = data.sound
+end)
+
+CreateThread(function()
+    
+    if Config.CheckForUpdates then
+
+        -- https://github.com/Blumlaut/FiveM-Resource-Version-Check-Thing/
+        updatePath = "/Gravxd/fivem-enginesound-menu" -- your git user/repo path
+        resourceName = "^6chroma-enginesoundmenu" -- the resource name
+        
+        local function checkVersion(err,responseText, headers)
+            curVersion = LoadResourceFile(GetCurrentResourceName(), "version.txt") -- make sure the "version" file actually exists in your resource root!
+            if curVersion ~= responseText and tonumber(curVersion) < tonumber(responseText) then
+                print("\n"..resourceName.." ^1is outdated, please update it from:\n^3https://github.com/Gravxd/fivem-enginesound-menu/releases/latest\n^1For support or issues, please visit ^3https://discord.gg/chromalabs^7")
+            else
+                print("\n"..resourceName.." ^2is up to date, and has been loaded - enjoy!\nFor support or issues, please visit ^3https://discord.gg/chromalabs^7")
+            end
+        end
+        
+        PerformHttpRequest("https://raw.githubusercontent.com"..updatePath.."/main/chroma-enginesoundmenu/version.txt", checkVersion, "GET")
+
+    else
+        print("\n^6chroma-enginesoundmenu ^2has been loaded - enjoy! ^1[VERSION CHECK DISABLED]\n^2For support or issues, please visit ^3https://discord.gg/chromalabs^7")
+    end
 
 end)

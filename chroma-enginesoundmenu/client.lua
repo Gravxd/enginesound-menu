@@ -3,21 +3,11 @@ for k, v in pairs(Config.EngineSounds) do
     DisplayLabels[#DisplayLabels + 1] = k
 end
 
-local function Notify(msg, type)
-    -- you can edit this to whatever you want, by default it uses ox_lib notifications
-    lib.notify({
-        title = 'chroma-enginesoundmenu',
-        description = msg,
-        type = type,
-        position = 'center-right',
-    })
-end
-
 local Index = 1
 lib.registerMenu({
     id = 'engine_sound_menu',
     title = 'Engine Sound Menu',
-    position = 'bottom-right',
+    position = Config.MenuPosition,
     onSideScroll = function(selected, scrollIndex, args)
         Index = scrollIndex
     end,
@@ -26,7 +16,7 @@ lib.registerMenu({
     }
 }, function(selected, scrollIndex, args)
     if not cache.vehicle or cache.seat ~= -1 then
-        return Notify('You need to be driving a vehicle to use this!', 'error') 
+        return Config.Notify('You need to be driving a vehicle to use this!', 'error') 
     end
     
     TriggerServerEvent('Chroma:EngineSounds:ChangeEngineSound', {
@@ -34,13 +24,13 @@ lib.registerMenu({
         sound = Config.EngineSounds[DisplayLabels[scrollIndex]]
     })
 
-    Notify(string.format('Engine sound changed to: %s', DisplayLabels[scrollIndex]), 'success')
+    Config.Notify(string.format('Engine sound changed to: %s', DisplayLabels[scrollIndex]), 'success')
 
 end)
 
 RegisterNetEvent("Chroma:EngineSounds:OpenMenu", function()
     if not cache.vehicle or cache.seat ~= -1 then
-        return Notify('You need to be driving a vehicle to use this!', 'error') 
+        return Config.Notify('You need to be driving a vehicle to use this!', 'error') 
     end
 
     lib.setMenuOptions('engine_sound_menu', { label = 'Change Engine Sound', icon = 'arrows-up-down-left-right', values = DisplayLabels, defaultIndex = Index }, 1)
@@ -51,7 +41,6 @@ end)
 AddStateBagChangeHandler("vehdata:sound", nil, function(bagName, key, value)
     local entity = GetEntityFromStateBagName(bagName)
     if entity == 0 then return end
-
     ForceUseAudioGameObject(entity, value)
 end)
 
