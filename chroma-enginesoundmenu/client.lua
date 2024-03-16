@@ -4,22 +4,24 @@ for k, v in pairs(Config.EngineSounds) do
 end
 
 local function Notify(msg, type)
-    -- you can edit this to whatever you want, by default it uses ox_lib notifications
-    if Notification == 1 then 
+    if type == 1 then 
         TriggerEvent('chat:addMessage', msg)
-    elseif Notification == 2 then 
+    elseif type == 2 then 
         exports['okokNotify']:Alert("Chroma Engine Sound Menu", msg, 4500, type)
-    elseif Notification == 3 then 
+    elseif type == 3 then 
         lib.notify({
             title = 'chroma-enginesoundmenu',
             description = msg,
             type = type,
             position = 'center-right',
         })
+    elseif type == 4 then 
+        load(Config.customNotif)() -- execute the string as Lua code
     else 
         TriggerEvent('chat:addMessage', msg)
     end
 end
+
 
 local Index = 1
 lib.registerMenu({
