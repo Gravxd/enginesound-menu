@@ -4,13 +4,16 @@ local function HasPermission(src)
 end
 
 local function Notify(src, msg, type)
-    -- you can edit this to whatever you want, by default it uses ox_lib notifications
-    TriggerClientEvent("ox_lib:notify", src, {
-        description = msg,
-        title = 'chroma-enginesoundmenu',
-        type = type,
-        position = 'center-right',
-    })
+    if Config.notifyType == 1 then
+        TriggerClientEvent("ox_lib:notify", src, {
+            description = msg,
+            title = 'chroma-enginesoundmenu',
+            type = type,
+            position = 'center-right',
+        })
+        elseif Config.notifyType == 2 then
+            TriggerClientEvent('okokNotify:Alert', source, "Chroma Engine Sound Menu", msg, 4500, 'type')
+    end
 end
 
 RegisterCommand("enginesound", function(source, args, rawCommand)
@@ -22,10 +25,7 @@ RegisterCommand("enginesound", function(source, args, rawCommand)
 end, false)
 
 RegisterServerEvent("Chroma:EngineSounds:ChangeEngineSound", function(data)
-
     local entity = NetworkGetEntityFromNetworkId(data.net)
     if not DoesEntityExist(entity) then return end
-
     Entity(entity).state['vehdata:sound'] = data.sound
-
 end)
