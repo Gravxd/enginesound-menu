@@ -4,27 +4,31 @@ for k, v in pairs(Config.EngineSounds) do
 end
 
 local function Notify(msg, type)
-    -- you can edit this to whatever you want, by default it uses ox_lib notifications
-    lib.notify({
-        title = 'chroma-enginesoundmenu',
-        description = msg,
-        type = type,
-        position = 'center-right',
-    })
+    if Config.notifyType == 1 then
+        lib.notify({
+            title = 'chroma-enginesoundmenu',
+            description = msg,
+            type = type,
+            position = 'center-right',
+        })
+        elseif Config.notifyType == 2 then
+            exports['okokNotify']:Alert("Chroma Engine Sound Menu", msg, 4500, type)
+    end
 end
 
+
 local Index = 1
-lib.registerMenu({
-    id = 'engine_sound_menu',
-    title = 'Engine Sound Menu',
-    position = 'bottom-right',
-    onSideScroll = function(selected, scrollIndex, args)
-        Index = scrollIndex
-    end,
-    options = {
-        { label = 'Change Engine Sound', icon = 'arrows-up-down-left-right', values = DisplayLabels },
-    }
-}, function(selected, scrollIndex, args)
+    lib.registerMenu({
+        id = 'engine_sound_menu',
+        title = 'Engine Sound Menu',
+        position = Config.menuPosistion,
+        onSideScroll = function(selected, scrollIndex, args)
+            Index = scrollIndex
+        end,
+        options = {
+            { label = 'Change Engine Sound', icon = 'arrows-up-down-left-right', values = DisplayLabels },
+        }
+    }, function(selected, scrollIndex, args)
     if not cache.vehicle or cache.seat ~= -1 then
         return Notify('You need to be driving a vehicle to use this!', 'error') 
     end
@@ -35,7 +39,6 @@ lib.registerMenu({
     })
 
     Notify(string.format('Engine sound changed to: %s', DisplayLabels[scrollIndex]), 'success')
-
 end)
 
 RegisterNetEvent("Chroma:EngineSounds:OpenMenu", function()
@@ -45,7 +48,6 @@ RegisterNetEvent("Chroma:EngineSounds:OpenMenu", function()
 
     lib.setMenuOptions('engine_sound_menu', { label = 'Change Engine Sound', icon = 'arrows-up-down-left-right', values = DisplayLabels, defaultIndex = Index }, 1)
     lib.showMenu('engine_sound_menu')
-
 end)
 
 AddStateBagChangeHandler("vehdata:sound", nil, function(bagName, key, value)
@@ -64,4 +66,5 @@ local keybind = lib.addKeybind({
     end,
 })
 
-TriggerEvent('chat:addSuggestion', '/enginesound', 'Open the Engine Sound Menu!')
+-- command suggestion
+TriggerEvent('chat:addSuggestion', '/enginesound', 'Open the Engine Sound Menu')
