@@ -5,12 +5,20 @@ end
 
 local function Notify(msg, type)
     -- you can edit this to whatever you want, by default it uses ox_lib notifications
-    lib.notify({
-        title = 'chroma-enginesoundmenu',
-        description = msg,
-        type = type,
-        position = 'center-right',
-    })
+    if Notification == 1 then 
+        TriggerEvent('chat:addMessage', msg)
+    elseif Notification == 2 then 
+        exports['okokNotify']:Alert("Chroma Engine Sound Menu", msg, 4500, type)
+    elseif Notification == 3 then 
+        lib.notify({
+            title = 'chroma-enginesoundmenu',
+            description = msg,
+            type = type,
+            position = 'center-right',
+        })
+    else 
+        TriggerEvent('chat:addMessage', msg)
+    end
 end
 
 local Index = 1
