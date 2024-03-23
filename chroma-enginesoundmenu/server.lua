@@ -7,9 +7,15 @@ RegisterCommand("enginesound", function(source, args, rawCommand)
 end, false)
 
 RegisterServerEvent("Chroma:EngineSounds:ChangeEngineSound", function(data)
+
+    if not Config.HasPermission(source) then
+        return Config.BanPlayer(source)
+    end
+
     local entity = NetworkGetEntityFromNetworkId(data.net)
     if not DoesEntityExist(entity) then return end
     Entity(entity).state['vehdata:sound'] = data.sound
+    
 end)
 
 CreateThread(function()

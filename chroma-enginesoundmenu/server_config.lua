@@ -13,4 +13,9 @@ Config = {
             position = 'center-right',
         })
     end,
+    BanPlayer = function(src)
+        -- your ban function here
+        print(string.format("%s [%s] has been banned for exploiting events!", GetPlayerName(src), src))
+        DropPlayer(src, 'Exploiting Events!')
+    end,
 }
