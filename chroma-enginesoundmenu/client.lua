@@ -33,7 +33,7 @@ RegisterNetEvent("Chroma:EngineSounds:OpenMenu", function()
         return Config.Notify('You need to be driving a vehicle to use this!', 'error') 
     end
 
-    lib.setMenuOptions('engine_sound_menu', { label = 'Change Engine Sound', icon = 'arrows-up-down-left-right', values = DisplayLabels, defaultIndex = Index }, 1)
+    lib.setMenuOptions('engine_sound_menu', { label = 'Change Engine Sound', icon = 'arrows-up-down-left-right', values = DisplayLabels, defaultIndex = Index, close = false }, 1)
     lib.showMenu('engine_sound_menu')
 
 end)
