@@ -16,26 +16,32 @@ lib.registerMenu({
     }
 }, function(selected, scrollIndex, args)
     if not cache.vehicle or cache.seat ~= -1 then
-        return Config.Notify('You need to be driving a vehicle to use this!', 'error') 
+        return Config.Notify('You need to be driving a vehicle to use this!', 'error')
     end
-    
+
     TriggerServerEvent('Chroma:EngineSounds:ChangeEngineSound', {
         net = VehToNet(cache.vehicle),
         sound = Config.EngineSounds[DisplayLabels[scrollIndex]]
     })
 
     Config.Notify(string.format('Engine sound changed to: %s', DisplayLabels[scrollIndex]), 'success')
-
 end)
 
 RegisterNetEvent("Chroma:EngineSounds:OpenMenu", function()
     if not cache.vehicle or cache.seat ~= -1 then
-        return Config.Notify('You need to be driving a vehicle to use this!', 'error') 
+        return Config.Notify('You need to be driving a vehicle to use this!', 'error')
     end
 
-    lib.setMenuOptions('engine_sound_menu', { label = 'Change Engine Sound', icon = 'arrows-up-down-left-right', values = DisplayLabels, defaultIndex = Index }, 1)
+    lib.setMenuOptions('engine_sound_menu',
+        {
+            label = 'Change Engine Sound',
+            icon = 'arrows-up-down-left-right',
+            values = DisplayLabels,
+            defaultIndex = Index,
+            close = Config.CloseOnSelect
+        },
+        1)
     lib.showMenu('engine_sound_menu')
-
 end)
 
 AddStateBagChangeHandler("vehdata:sound", nil, function(bagName, key, value)
