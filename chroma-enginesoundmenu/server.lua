@@ -23,13 +23,13 @@ CreateThread(function()
     if Config.CheckForUpdates then
 
         -- https://github.com/Blumlaut/FiveM-Resource-Version-Check-Thing/
-        updatePath = "/Gravxd/fivem-enginesound-menu" -- your git user/repo path
+        updatePath = "/Gravxd/enginesound-menu" -- your git user/repo path
         resourceName = "^6chroma-enginesoundmenu" -- the resource name
         
         local function checkVersion(err,responseText, headers)
             curVersion = LoadResourceFile(GetCurrentResourceName(), "version.txt") -- make sure the "version" file actually exists in your resource root!
             if curVersion ~= responseText and tonumber(curVersion) < tonumber(responseText) then
-                print("\n"..resourceName.." ^1is outdated, please update it from:\n^3https://github.com/Gravxd/fivem-enginesound-menu/releases/latest\n^1For support or issues, please visit ^3https://discord.gg/chromalabs^7")
+                print("\n"..resourceName.." ^1is outdated, please update it from:\n^3https://github.com/Gravxd/enginesound-menu/releases/latest\n^1For support or issues, please visit ^3https://discord.gg/chromalabs^7")
             else
                 print("\n"..resourceName.." ^2is up to date, and has been loaded - enjoy!\nFor support or issues, please visit ^3https://discord.gg/chromalabs^7")
             end
